@@ -28,6 +28,11 @@ class Nivel:
         self.cantidad_trampas =  self.nombre_nivel['tiempo_nivel_1']
         
         self.pantalla = pantalla
+        self.ancho_ventana = ancho_pantalla
+        self.alto_ventana = alto_pantalla
+        #----------------------------------------------------------------
+        self.fondo_carga = pg.image.load(self.fondo)
+        self.fondo_carga= pg.transform.scale(self.fondo_carga,(self.ancho_ventana, self.alto_ventana))
         #-------------------------------------------------------------------------
         self.luffy = Jugador(self.configuraciones['jugador']['posicion_x'],
                                 self.configuraciones['jugador']['posicion_y'],
@@ -36,6 +41,7 @@ class Nivel:
         #-------------------------------------------------------------------------
         #estructura
         self.estructura  = self.configuraciones["estructuras"]
+        self.plataformas_ordenadas = self.configuraciones["plataformas"]
         self.lista_estructuras = []
         #-------------------------------------------------------------------------
 
@@ -51,7 +57,13 @@ class Nivel:
         self.grupo_enemigos = pg.sprite.Group()
         self.grupo_items = pg.sprite.Group()
         self.grupo_trampas = pg.sprite.Group()
-    
+        self.generador_enemigos()
+        self.crear_items_puntaje()
+        self.crear_items_vida()
+        self.crear_plataformas()
+        self.crear_trampas()
+
+
     def generador_enemigos(self):
         enemigos = self.cantidad_enemigos
         for _ in range(enemigos):
@@ -60,8 +72,11 @@ class Nivel:
             enemigos = Enemigo((x,y))
             self.grupo_enemigos.add(enemigos)
 
+
+    def dibujar_enemigos(self):
         for enemigo in self.grupo_enemigos:
             enemigo.draw(self.pantalla)
+
 
     def crear_items_puntaje(self):
         items = self.nombre_nivel["cantidad_item_puntos"]
@@ -75,6 +90,8 @@ class Nivel:
                 objetivo = Item(imagen, x, y, ancho, alto)
                 
                 self.grupo_items.add(objetivo)
+    
+    def dibujar_items(self):
         for item in self.grupo_items:
             item.draw(self.pantalla)
     
@@ -91,6 +108,8 @@ class Nivel:
                 objetivo = Item(imagen, x, y, ancho, alto)
                 
                 self.grupo_items.add(objetivo)
+    
+    def dibujar_items_vida(self):
         for item_vida in self.grupo_items:
             item_vida.draw(self.pantalla)
     
@@ -98,14 +117,17 @@ class Nivel:
         imagen = self.estructura["imagen"]
         ancho = self.estructura["ancho"]
         alto = self.estructura["alto"]
-
         
-        for nombre, datos in self.estructura.items():
-            if nombre.startswith("estructura"):#verifica si la cadena comienza con un prefijo específico
-                x = datos["x"]
-                y = datos["y"]
-                plataforma = Estructura(x, y, ancho, alto, imagen)
-                self.lista_estructuras.append(plataforma)
+        for p in self.plataformas_ordenadas:
+            
+            x = p["x"]
+            y = p["y"]
+
+            plataforma = Estructura(x, y, ancho, alto, imagen)
+            self.lista_estructuras.append(plataforma)
+        
+    def dibujar_estructuras(self):
+
         for plataforma in self.lista_estructuras:
             plataforma.draw(self.pantalla)
     
@@ -115,12 +137,12 @@ class Nivel:
         ancho = self.trampa["ancho"]
         alto = self.trampa["alto"]
         for nombre, datos in self.trampa.items():
-            if nombre.startswith("trampa"):#verifica si la cadena comienza con un prefijo específico
+            if nombre.startswith("trampa"):
                 x = datos["x"]
                 y = datos["y"]
                 trampa = Trampa(imagen,x, y, ancho, alto )
                 self.grupo_trampas.add(trampa)
-
+    def dibujar_trampas(self):
         for trampa in self.grupo_trampas:
             trampa.draw(self.pantalla)
 
@@ -142,10 +164,7 @@ class Nivel:
     def parar_musica(self):
         pg.mixer.music.stop()
     
-    def cargar_fondo(self):
-        self.fondo_carga = pg.image.load(self.fondo)
-        self.fondo_carga_1= pg.transform.scale(self.fondo_carga,(ANCHO_VENTANA, ALTO_VENTANA))
-        
+    
 
     def draw(self):
 
@@ -155,12 +174,13 @@ class Nivel:
 
     def update(self, pantalla):
         
-        self.generador_enemigos()
-        self.crear_items_puntaje()
-        self.crear_items_vida()
-        self.crear_plataformas()
+        self.dibujar_enemigos()
+        self.grupo_enemigos.update()
+        self.dibujar_items()
+        self.grupo_items.update()
+        self.dibujar_items_vida()
+        self.dibujar_estructuras()
+        self.dibujar_trampas()
         self.cargar_music()
-        self.crear_trampas()
-        self.cargar_fondo()
         self.luffy.draw(pantalla)
         

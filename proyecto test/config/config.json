@@ -45,15 +45,18 @@
         
         },
     "estructuras":{
-        "ancho": 40, 
+        "ancho": 50, 
         "alto":40,
-        "imagen": "./imagenes/img_plataformas/ladrillito.png",
-        "plataforma_1":{"x":100,"y":200},
-        "plataforma_2":{"x":150,"y":200},
-        "plataforma_3":{"x":400,"y":200},
-        "plataforma_4":{"x":450,"y":200}
+        "imagen": "./imagenes/img_plataformas/ladrillito.png"
+    },
+    "plataformas":[
 
-        },
+        {"x":100,"y":200},
+        {"x":150,"y":200},
+        {"x":400,"y":200},
+        {"x":450,"y":200}
+
+    ],
     "trampas": {
 
         "ancho": 30,
