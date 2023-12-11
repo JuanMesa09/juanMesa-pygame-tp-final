@@ -1,0 +1,66 @@
+
+
+{   
+
+    "tiempo_de_juego":30,
+    "nivel_1":{
+        "nivel":{  
+        "fondo": "./imagenes/img_fondo/goku_house.png",
+        "musica_fondo": "./sonidos/musica lvl.mp3",
+        "cantidad_vidas": 3,
+        "cantidad_trampas": 1,
+        "cantidad_enemigos": 2,
+        "cantidad_item_puntos": 1,
+        "cantidad_items_vida": 1,
+        "tiempo_nivel_1": 100
+
+    },
+    "jugador":{
+
+        "velocidad_caminar": 5,
+        "cuadros_por_seg": 60,
+        "posicion_x": 0,
+        "posicion_y": 400
+        },
+
+    "enemigo":{
+
+        "posicion_x": {"x_1": 300, "x_2":500},
+        "posicion_y": 350
+        },
+    "item_puntos":{
+        "imagen_item": "imagenes/img_items/item_puntos/puntajee.png",
+        "ancho": 40,
+        "alto": 40,
+        "items_1": {"x":80, "y":190}
+        
+        
+        },
+    "item_vida": {
+
+        "imagen":"imagenes/vidas/vida_mate.png",
+        "ancho": 40,
+        "alto": 40,
+        "item_vida_1": {"x":530, "y":190}
+        
+        },
+    "estructuras":{
+        "ancho": 40, 
+        "alto":40,
+        "imagen": "./imagenes/img_plataformas/ladrillito.png",
+        "plataforma_1":{"x":100,"y":200},
+        "plataforma_2":{"x":150,"y":200},
+        "plataforma_3":{"x":400,"y":200},
+        "plataforma_4":{"x":450,"y":200}
+
+        },
+    "trampas": {
+
+        "ancho": 30,
+        "alto": 30,
+        "imagen": "./imagenes/trampas/pinches.png",
+        "trampa_1": {"x": 300, "y": 315}
+    }
+    }
+    
+}
