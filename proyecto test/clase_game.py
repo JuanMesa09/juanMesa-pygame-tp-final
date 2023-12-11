@@ -82,21 +82,19 @@ class Game():
                     
                 if  len(self.juego.grupo_enemigos) < 1 :
                     
-                    #print(self.puntaje_jugador)
                     self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_2")
 
-                elif len(self.juego.grupo_enemigos) < 1 and (tiempo_transcurrido <= self.duracion_game) :
+                if len(self.juego.grupo_enemigos) < 1 and (tiempo_transcurrido <= self.duracion_game) :
 
-                    #print(self.puntaje_jugador)
                     self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
                     
-                    # self.pantalla.fill((0, 0, 0))
-                    # texto_victoria = font.render(f"Has logrado la... VICTORIA SOS CRACK", True, (255,255,255))
-                    # texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
-                    # self.pantalla.blit(texto_puntaje_victoria,(0, ALTO_VENTANA // 2))
-                    # self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
-                    # pg.display.flip()
-                    # pg.time.delay(3000)
+                    self.pantalla.fill((0, 0, 0))
+                    texto_victoria = font.render(f"Has logrado la... VICTORIA SOS CRACK", True, (255,255,255))
+                    texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
+                    self.pantalla.blit(texto_puntaje_victoria,(0, ALTO_VENTANA // 2))
+                    self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
+                    pg.display.flip()
+                    pg.time.delay(3000)
                 
                 #colision bala con estructura
                 colision_bala_en_estructura =  pg.sprite.spritecollide(bala, self.juego.lista_estructuras,False)
@@ -166,7 +164,6 @@ class Game():
                     self.pantalla.blit(texto_victoria, (ANCHO_VENTANA // 2 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                     pg.display.flip()
                     pg.time.delay(3000)
-            
             
             self.pantalla.blit(self.juego.fondo_carga,(0,0))
             self.pantalla.blit(tiempo_juego,(ANCHO_VENTANA//2, 10))

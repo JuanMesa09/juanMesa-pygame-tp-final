@@ -32,7 +32,7 @@
         "imagen_item": "imagenes/img_items/item_puntos/puntajee.png",
         "ancho": 40,
         "alto": 40,
-        "items_1": {"x":80, "y":190}
+        "items_1": {"x":120, "y":160}
         
         
         },
@@ -41,7 +41,7 @@
         "imagen":"imagenes/vidas/vida_mate.png",
         "ancho": 40,
         "alto": 40,
-        "item_vida_1": {"x":530, "y":190}
+        "item_vida_1": {"x":450, "y":160}
         
         },
     "estructuras":{
@@ -52,7 +52,7 @@
     "plataformas":[
 
         {"x":100,"y":200},
-        {"x":150,"y":200},
+        {"x":140,"y":200},
         {"x":400,"y":200},
         {"x":450,"y":200}
 
@@ -95,7 +95,7 @@
         "imagen_item": "imagenes/img_items/item_puntos/puntajee.png",
         "ancho": 50,
         "alto": 50,
-        "items_1": {"x":80, "y":190}
+        "items_1": {"x":650, "y":310}
         
         
         },
@@ -104,7 +104,7 @@
         "imagen":"imagenes/vidas/vida_mate.png",
         "ancho": 40,
         "alto": 40,
-        "item_vida_1": {"x":530, "y":190}
+        "item_vida_1": {"x":545, "y":310}
         
         },
     "estructuras":{
@@ -114,10 +114,10 @@
     },
     "plataformas":[
 
-        {"x":150,"y":200},
-        {"x":150,"y":260},
-        {"x":450,"y":200},
-        {"x":400,"y":160}
+        {"x":130,"y":270},
+        {"x":130,"y":310},
+        {"x":600,"y":270},
+        {"x":600,"y":310}
 
     ],
     "trampas": {
