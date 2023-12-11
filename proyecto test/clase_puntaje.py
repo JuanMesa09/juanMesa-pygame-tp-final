@@ -11,9 +11,11 @@ class Puntaje():
     
     def muerte_enemiga(self, puntuacion):
         self.puntaje += puntuacion
+        return self.puntaje
     
     def agarrar_item(self, puntuacion):
         self.puntaje += puntuacion
+        return  self.puntaje
 
     def  obtener_puntaje(self):
         return self.puntaje

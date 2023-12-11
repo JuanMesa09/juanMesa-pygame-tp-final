@@ -55,7 +55,8 @@ class Nivel:
         self.item_vida = self.configuraciones['item_vida']
         #grupos sprites
         self.grupo_enemigos = pg.sprite.Group()
-        self.grupo_items = pg.sprite.Group()
+        self.grupo_items_puntos = pg.sprite.Group()
+        self.grupo_items_vida = pg.sprite.Group()
         self.grupo_trampas = pg.sprite.Group()
         self.generador_enemigos()
         self.crear_items_puntaje()
@@ -89,10 +90,10 @@ class Nivel:
                 y = self.item_puntaje[f"items_{i}"]["y"]
                 objetivo = Item(imagen, x, y, ancho, alto)
                 
-                self.grupo_items.add(objetivo)
+                self.grupo_items_puntos.add(objetivo)
     
     def dibujar_items(self):
-        for item in self.grupo_items:
+        for item in self.grupo_items_puntos:
             item.draw(self.pantalla)
     
     def crear_items_vida(self):
@@ -107,10 +108,10 @@ class Nivel:
                 y = self.item_vida[f"item_vida_{i}"]["y"]
                 objetivo = Item(imagen, x, y, ancho, alto)
                 
-                self.grupo_items.add(objetivo)
+                self.grupo_items_vida.add(objetivo)
     
     def dibujar_items_vida(self):
-        for item_vida in self.grupo_items:
+        for item_vida in self.grupo_items_vida:
             item_vida.draw(self.pantalla)
     
     def crear_plataformas(self):
@@ -177,8 +178,9 @@ class Nivel:
         self.dibujar_enemigos()
         self.grupo_enemigos.update()
         self.dibujar_items()
-        self.grupo_items.update()
+        self.grupo_items_puntos.update()
         self.dibujar_items_vida()
+        self.grupo_items_vida.update()
         self.dibujar_estructuras()
         self.dibujar_trampas()
         self.cargar_music()

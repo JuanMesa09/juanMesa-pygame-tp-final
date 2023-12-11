@@ -45,6 +45,7 @@ class Jugador():
         self.tiempo_invulnerable = 2000  #en mili seg
         self.invulnerable = False
         self.tiempo_invulnerable_actual = 0
+        
     
     def animaciones_enx_presstablecidas(self,movimiento_en_x,lista_animaciones:[pg.surface.Surface], bandera_mirando_derecha):
         self.rect.x += movimiento_en_x
@@ -119,9 +120,9 @@ class Jugador():
             case "derecha":
                 
                 self.animaciones_enx_presstablecidas(self.velocidad_disparo, self.parado_derecha, "derecha")
-                print("miro a la derecha")
+                
             case "izquierda":
-                print("miro a la izquierda")
+                
                 self.animaciones_enx_presstablecidas(-self.velocidad_disparo, self.parado_izquierda, "izquierda")
                 #print("miro a la izquierda")
 
@@ -131,12 +132,6 @@ class Jugador():
             self.vidas -= 1
             self.invulnerable = True
             self.tiempo_invulnerable_actual = pg.time.get_ticks()
-
-        
-    def choque_enemigo(self):
-        
-        self.perdida_de_vidas()
-    
 
         
     def actualizar_cd(self):
@@ -238,3 +233,4 @@ class Jugador():
     def agarrar_vida(self):
 
         self.vidas += 1
+        return self.vidas
