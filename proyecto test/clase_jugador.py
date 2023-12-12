@@ -103,11 +103,11 @@ class Jugador():
         
         if direccion == "derecha":
                 
-            print("disparo a la derecha")
+            
             return Proyectil(self.rect.centerx, self.rect.centery, "derecha")
             
         elif direccion == "izquierda":
-            print("disparo a la izquierda")
+            
             return Proyectil(self.rect.centerx, self.rect.centery, "izquierda" )
             #self.cd_disparo = 10
         
