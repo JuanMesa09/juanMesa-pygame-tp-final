@@ -32,7 +32,7 @@ class Nivel:
         self.alto_ventana = alto_pantalla
         #----------------------------------------------------------------
         self.fondo_carga = pg.image.load(self.fondo)
-        self.fondo_carga= pg.transform.scale(self.fondo_carga,(self.ancho_ventana, self.alto_ventana))
+        self.fondo_carga = pg.transform.scale(self.fondo_carga,(self.ancho_ventana, self.alto_ventana))
         #-------------------------------------------------------------------------
         self.luffy = Jugador(self.configuraciones['jugador']['posicion_x'],
                                 self.configuraciones['jugador']['posicion_y'],

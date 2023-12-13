@@ -2,7 +2,7 @@
 
 import random
 import pygame as pg 
-from constantes import *
+from constantes import * 
 from clase_jugador import Jugador
 from clase_nivel import Nivel
 from clase_puntaje import Puntaje
@@ -56,15 +56,17 @@ class Game():
                     self.juego_ejecutandose = False
                     break
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_p:
-                        self.pausa()
-                        print("toco y me voy")
+                        if event.key == pg.K_p:
+                            self.pausa()
+                            
+                            
                         
                 lista_eventos.append(event)
             #tiempo transcurrido
             tiempo_actual =  pg.time.get_ticks() // 1000
             tiempo_transcurrido = tiempo_actual - self.tiempo_inicial
             tiempo_restante = max(0, self.duracion_game - tiempo_transcurrido)
+            
             
             if tiempo_transcurrido >= self.duracion_game:
                 self.juego_ejecutandose =  False
@@ -197,20 +199,22 @@ class Game():
         pg.quit()
     def pausa(self):
         pausa = True
-        
-
+        fondo_pausa = pg.transform.scale(pg.image.load(r"imagenes\img_fondo\fondo_pausa.png"), (ANCHO_VENTANA, ALTO_VENTANA))
         while pausa:
-            self.pantalla.fill((0, 0, 0))
+            self.pantalla.blit(fondo_pausa, (0,0))
             for event in pg.event.get():
                 
                 if event.type == pg.QUIT:
                     pausa = False
                     self.juego_ejecutandose = False
                     pg.quit()
-                if event.type == pg.K_p:
-                    print("saco pausa")
-                    pausa = False
-                    #self.juego_ejecutandose = True
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_p:
+                        
+                        print("saco pausa")
+                        pausa = False
+            pg.display.flip()
+
 
 
 
