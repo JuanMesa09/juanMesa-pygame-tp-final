@@ -99,9 +99,10 @@ class Game():
                 elif self.nivel_2_ganado and not self.nivel_3_ganado and len(self.juego.grupo_enemigos) < 1:
                     
                     self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
+                    self.nivel_3_ganado = True
 
 
-                if len(self.juego.grupo_enemigos) < 1 and (tiempo_transcurrido <= self.duracion_game) and self.nivel_3_ganado :
+                if len(self.juego.grupo_enemigos) < 1  and self.nivel_3_ganado :
 
                         self.pantalla.fill((0, 0, 0))
                         texto_victoria = font.render(f"Has logrado la... VICTORIA SOS CRACK", True, (255,255,255))
