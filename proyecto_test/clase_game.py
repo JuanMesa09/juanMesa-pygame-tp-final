@@ -13,25 +13,11 @@ from clase_puntaje import Puntaje
 
 class Game():
 
-    def __init__(self) :
+    def __init__(self,jugador_nombre, nivel_seleccionado) :
         super().__init__()
     
-    # def pausa(self):
-    #     pausa = True
-        
+    
 
-    #     while pausa:
-    #         self.pantalla.fill((0, 0, 0))
-    #         for event in pg.event.get():
-                
-    #             if event.type == pg.QUIT:
-    #                 pausa = False
-    #                 self.juego_ejecutandose = False
-    #                 pg.quit()
-    #             if event.type == pg.K_p:
-    #                 pausa = False
-    #                 self.juego_ejecutandose = True
-                
     def correr_nivel(self, nombre_nivel):
     
         self.icono_vida =pg.transform.scale(pg.image.load(r'./imagenes\vidas\vida_mate.png'), (25,25))
@@ -51,27 +37,29 @@ class Game():
         
         retardo = pg.time.Clock()
 
-        juego_ejecutandose = True
+        self.juego_ejecutandose = True
         
         self.puntaje = Puntaje()
         self.tiempo_inicial = pg.time.get_ticks()//1000 
         self.duracion_game =  40
-    
+        self.nivel_1_gando = False
+        self.nivel_2_ganado = False
+        self.nivel_3_ganado = False
 
-
-                        
-        while juego_ejecutandose:
+        while self.juego_ejecutandose:
             lista_eventos = []
             
             delta_ms = retardo.tick(FPS)
             pg.time.delay(30)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    juego_ejecutandose = False
+                    self.juego_ejecutandose = False
                     break
-                # if event.type == pg.K_p:
-                #     self.pausa()
-                    
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_p:
+                        self.pausa()
+                        print("toco y me voy")
+                        
                 lista_eventos.append(event)
             #tiempo transcurrido
             tiempo_actual =  pg.time.get_ticks() // 1000
@@ -79,7 +67,7 @@ class Game():
             tiempo_restante = max(0, self.duracion_game - tiempo_transcurrido)
             
             if tiempo_transcurrido >= self.duracion_game:
-                juego_ejecutandose =  False
+                self.juego_ejecutandose =  False
                 self.pantalla.fill((0, 0, 0))
                 texto_victoria = font.render(f"Tiempo Terminado DERRORTA", True, (255,255,255))
                 texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
@@ -102,21 +90,26 @@ class Game():
                     self.puntaje.muerte_enemiga(enemigo.puntaje)
                     bala.kill()
                     
-                if  len(self.juego.grupo_enemigos) < 1 :
+                if not self.nivel_2_ganado and len(self.juego.grupo_enemigos) < 1 and not self.nivel_3_ganado:
                     
                     self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_2")
-
-                if len(self.juego.grupo_enemigos) < 1 and (tiempo_transcurrido <= self.duracion_game) :
-
-                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
+                    self.nivel_2_ganado = True
                     
-                    self.pantalla.fill((0, 0, 0))
-                    texto_victoria = font.render(f"Has logrado la... VICTORIA SOS CRACK", True, (255,255,255))
-                    texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
-                    self.pantalla.blit(texto_puntaje_victoria,(0, ALTO_VENTANA // 2))
-                    self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
-                    pg.display.flip()
-                    pg.time.delay(3000)
+                    
+                elif self.nivel_2_ganado and not self.nivel_3_ganado and len(self.juego.grupo_enemigos) < 1:
+                    
+                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
+
+
+                if len(self.juego.grupo_enemigos) < 1 and (tiempo_transcurrido <= self.duracion_game) and self.nivel_3_ganado :
+
+                        self.pantalla.fill((0, 0, 0))
+                        texto_victoria = font.render(f"Has logrado la... VICTORIA SOS CRACK", True, (255,255,255))
+                        texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
+                        self.pantalla.blit(texto_puntaje_victoria,(0, ALTO_VENTANA // 2))
+                        self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
+                        pg.display.flip()
+                        pg.time.delay(3000)
                 
                 #colision bala con estructura
                 colision_bala_en_estructura =  pg.sprite.spritecollide(bala, self.juego.lista_estructuras,False)
@@ -162,7 +155,7 @@ class Game():
                 if not self.juego.luffy.invulnerable:
                     self.juego.luffy.perdida_de_vidas()
             if self.juego.luffy.vidas < 1:
-                    juego_ejecutandose = False
+                    self.juego_ejecutandose = False
                     self.pantalla.fill((0, 0, 0))
                     texto_victoria = font.render(f"Te han Matado... DERRORTA", True, (255,255,255))
                     texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
@@ -178,7 +171,7 @@ class Game():
                 if not self.juego.luffy.invulnerable:
                     self.juego.luffy.perdida_de_vidas()
             if self.juego.luffy.vidas < 1:
-                    juego_ejecutandose = False
+                    self.juego_ejecutandose = False
                     self.pantalla.fill((0, 0, 0))
                     texto_victoria = font.render(f"Te han Matado... DERRORTA", True, (255,255,255))
                     texto_puntaje_victoria = font.render(f"Puntaje: {self.puntaje.obtener_puntaje()}", True, (255,255,255))
@@ -200,7 +193,23 @@ class Game():
             pg.display.update()
             
         #juego.parar_musica() 
-    pg.quit()
+        pg.quit()
+    def pausa(self):
+        pausa = True
+        
+
+        while pausa:
+            self.pantalla.fill((0, 0, 0))
+            for event in pg.event.get():
+                
+                if event.type == pg.QUIT:
+                    pausa = False
+                    self.juego_ejecutandose = False
+                    pg.quit()
+                if event.type == pg.K_p:
+                    print("saco pausa")
+                    pausa = False
+                    #self.juego_ejecutandose = True
 
 
 
