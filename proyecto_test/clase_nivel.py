@@ -26,7 +26,7 @@ class Nivel:
         self.cantidad_trampas = self.nombre_nivel['cantidad_trampas']
         self.cantidad_enemigos =  self.nombre_nivel['cantidad_enemigos']
         self.cantidad_trampas =  self.nombre_nivel['tiempo_nivel_1']
-        
+        #----------------------------------------------------------------
         self.pantalla = pantalla
         self.ancho_ventana = ancho_pantalla
         self.alto_ventana = alto_pantalla
@@ -44,7 +44,7 @@ class Nivel:
         self.plataformas_ordenadas = self.configuraciones["plataformas"]
         self.lista_estructuras = []
         #-------------------------------------------------------------------------
-
+        #enemigo
         self.enemigo = self.configuraciones["enemigo"]
         #-------------------------------------------------------------------------
         #trampa
@@ -58,6 +58,7 @@ class Nivel:
         self.grupo_items_puntos = pg.sprite.Group()
         self.grupo_items_vida = pg.sprite.Group()
         self.grupo_trampas = pg.sprite.Group()
+        #funciones
         self.generador_enemigos()
         self.crear_items_puntaje()
         self.crear_items_vida()

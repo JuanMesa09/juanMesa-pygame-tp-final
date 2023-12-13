@@ -33,6 +33,8 @@ class Game():
         titulo = pg.display.set_caption("El paseo de Luffy")
         font = pg.font.Font(None, 36)
         self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, nombre_nivel)
+
+        self.tiempo_total_transcurrido = 0
         
         
         retardo = pg.time.Clock()
@@ -64,7 +66,7 @@ class Game():
                 lista_eventos.append(event)
             #tiempo transcurrido
             tiempo_actual =  pg.time.get_ticks() // 1000
-            tiempo_transcurrido = tiempo_actual - self.tiempo_inicial
+            tiempo_transcurrido = tiempo_actual - self.tiempo_inicial - self.tiempo_total_transcurrido // 1000
             tiempo_restante = max(0, self.duracion_game - tiempo_transcurrido)
             
             
@@ -113,6 +115,7 @@ class Game():
                         self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                         pg.display.flip()
                         pg.time.delay(3000)
+                        
                 
                 #colision bala con estructura
                 colision_bala_en_estructura =  pg.sprite.spritecollide(bala, self.juego.lista_estructuras,False)
@@ -199,9 +202,11 @@ class Game():
         pg.quit()
     def pausa(self):
         pausa = True
+        tiempo_pausa_inicial = pg.time.get_ticks() // 1000
         fondo_pausa = pg.transform.scale(pg.image.load(r"imagenes\img_fondo\fondo_pausa.png"), (ANCHO_VENTANA, ALTO_VENTANA))
         while pausa:
             self.pantalla.blit(fondo_pausa, (0,0))
+            tiempo_pausa_actual = pg.time.get_ticks() // 1000
             for event in pg.event.get():
                 
                 if event.type == pg.QUIT:
@@ -213,6 +218,7 @@ class Game():
                         
                         print("saco pausa")
                         pausa = False
+            self.tiempo_total_transcurrido += (tiempo_pausa_actual - tiempo_pausa_inicial)
             pg.display.flip()
 
 
