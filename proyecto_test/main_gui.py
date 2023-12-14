@@ -4,7 +4,7 @@ import sys,os
 from booton import Bootton
 from input_box import InputBox
 from clase_game import Game
-
+from db import get_lista
 
 
 pg.init()
@@ -152,18 +152,28 @@ def entrar_al_nivel(jugador_nombre):
 
         pg.display.update()
 
-def apreto_opcion():
-    pg.display.set_caption("Options")
+def apreto_ranking():
+    pg.display.set_caption("Ranking")
 
     while True:
         OPTIONS_MOUSE_POS = pg.mouse.get_pos()
 
         pantalla.blit(fondo_menu, (0,0))
     
-        OPTIONS_TEXT = get_font(45).render("Configuracion", True, "White")
+        OPTIONS_TEXT = get_font(45).render("Ranking", True, "Black")
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(400,200))
         pantalla.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
+        #Obtengo las puntuaciones desde la base de datos
+        puntuaciones = get_lista()
+
+        #Muestro las puntuaciones
+        
+        for i, (nombre, puntaje) in enumerate(puntuaciones, start=1):
+            fila_texto = get_font(20).render(f"{i}. {nombre}: {puntaje}", True, "Black")
+            fila_rect = fila_texto.get_rect(center=(400,300))
+            pantalla.blit(fila_texto, fila_rect)
+            
         OPTIONS_BACK = Bootton(image=None, pos=(700,500), text_input="Atras", font=get_font(45), base_color="White",
                             color="Blue")
         OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
@@ -178,12 +188,12 @@ def apreto_opcion():
                     main_menu()
         pg.display.update()
 
-def iniciar_juego(jugador_nombre, nivel_seleccionado):
+def iniciar_juego(nombre_jugador, nivel_seleccionado):
     # Instancio de la clase Juego 
-    print(nivel_seleccionado)
-    juego = Game(jugador_nombre, nivel_seleccionado)
     
-    juego.correr_nivel(nivel_seleccionado)
+    juego = Game(nombre_jugador, nivel_seleccionado)
+    
+    juego.correr_nivel(nombre_jugador,nivel_seleccionado)
     
 def main_menu():
     pg.mixer.music.play(-1)
@@ -198,15 +208,15 @@ def main_menu():
         PLAY_BOTOOM = Bootton(image=None, pos=(420,280),
                         text_input="PLAY", font=get_font(25), base_color="Blue", color="White")
         
-        OPTIONS_BOTOOM = Bootton(image=None, pos=(420,340),
-                                text_input="OPTIONS", font=get_font(25), base_color="Red", color="White")
+        RANKING_BUTTON = Bootton(image=None, pos=(420, 340),
+                            text_input="RANKING", font=get_font(25), base_color="Black",color="Red")
         
         QUIT_BOTTOM = Bootton(image=None, pos=(415, 400),
-                            text_input="QUIT", font=get_font(25), base_color="Green", color="White")
+                            text_input="QUIT", font=get_font(25), base_color="Green", color="Blue")
         
         pantalla.blit(menu_texto, menu_rect)
 
-        for button in [PLAY_BOTOOM, OPTIONS_BOTOOM, QUIT_BOTTOM]:
+        for button in [PLAY_BOTOOM, RANKING_BUTTON, QUIT_BOTTOM]:
             button.changeColor(posicion_mouse)
             button.update(pantalla)
 
@@ -217,8 +227,8 @@ def main_menu():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if PLAY_BOTOOM.checkForInput(posicion_mouse):
                     apreto_play()
-                if OPTIONS_BOTOOM.checkForInput(posicion_mouse):
-                    apreto_opcion()
+                if RANKING_BUTTON.checkForInput(posicion_mouse):
+                    apreto_ranking()
                 if QUIT_BOTTOM.checkForInput(posicion_mouse):
                     pg.quit()
                     sys.exit()

@@ -6,7 +6,7 @@ from constantes import *
 from clase_jugador import Jugador
 from clase_nivel import Nivel
 from clase_puntaje import Puntaje
-from db import *
+from db import insertar_campos, crear_tabla
 
 
 
@@ -18,7 +18,7 @@ class Game():
     
     
 
-    def correr_nivel(self, nombre_nivel):
+    def correr_nivel(self, jugador_nombre, nombre_nivel):
     
         self.icono_vida =pg.transform.scale(pg.image.load(r'./imagenes\vidas\vida_mate.png'), (25,25))
         self.rect = self.icono_vida.get_rect()
@@ -53,7 +53,9 @@ class Game():
         
         self.nivel_2_ganado = False
         self.nivel_3_ganado = False
-        
+        self.juego.luffy.nombre_jugador = jugador_nombre
+        self.juego.nivel_seleccionado = nombre_nivel
+        crear_tabla()
 
         while self.juego_ejecutandose:
             lista_eventos = []
@@ -123,6 +125,7 @@ class Game():
                         self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                         pg.display.flip()
                         self.musica_final.set_volume(0.5)
+                        insertar_campos(self.juego.luffy.nombre_jugador, self.puntaje.obtener_puntaje())
                         self.musica_final.play()
                         pg.time.delay(3000)
                         pg.quit()

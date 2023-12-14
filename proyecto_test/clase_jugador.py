@@ -45,6 +45,7 @@ class Jugador():
         self.tiempo_invulnerable = 2000  #en mili seg
         self.invulnerable = False
         self.tiempo_invulnerable_actual = 0
+        self.nombre_jugador = None
         
     
     def animaciones_enx_presstablecidas(self,movimiento_en_x,lista_animaciones:[pg.surface.Surface], bandera_mirando_derecha):

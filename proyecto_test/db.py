@@ -19,9 +19,9 @@ def crear_tabla():
 def insertar_campos(player_name: str, player_score: int):
     """Inserta campos si no existen.
     """
-    with sqlite3.connect("ranking.db") as conexion:
+    with sqlite3.connect("Ranking pirata.db") as conexion:
         try:
-            if not chequear_existencias(player_name):
+            if not verifico_si_existen(player_name):
                 conexion.execute("INSERT INTO ranking (nombre,puntaje) values(?,?)", (player_name, player_score))
                 conexion.commit()
             else:
@@ -31,20 +31,20 @@ def insertar_campos(player_name: str, player_score: int):
             print("Error al insertar el campo.")
 
 
-def chequear_existencias(value:str):
+def verifico_si_existen(value:str):
     """Verifica si existe una posicion en la base de datos.
     
     Recibe: nombre del jugador.
     Retorna: Una lista con las filas encontradas.
     """
-    with sqlite3.connect("ranking.db") as conexion:
+    with sqlite3.connect("Ranking pirata.db") as conexion:
         sentencia = "SELECT * FROM ranking WHERE nombre=?"
         cursor = conexion.execute(sentencia, (value,))
         filas=cursor.fetchall()
         return filas
     
 def get_lista():
-    with sqlite3.connect("ranking.db") as conexion:
+    with sqlite3.connect("Ranking pirata.db") as conexion:
         sentencia = "SELECT * FROM ranking ORDER BY puntaje DESC LIMIT 3"
         cursor = conexion.execute(sentencia)
         filas=cursor.fetchall()
