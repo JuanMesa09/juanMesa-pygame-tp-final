@@ -21,7 +21,7 @@ class Enemigo(pg.sprite.Sprite):
         self.direccion = 1
         self.puntaje = 500
         self.animacion_velocidad = 0.1
-        self.animacion_tiempo = 0.0
+        self.animacion_tiempo = 0
         self.image_index = 0
 
     def update(self):

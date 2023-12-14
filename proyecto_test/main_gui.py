@@ -5,15 +5,16 @@ from booton import Bootton
 from input_box import InputBox
 from clase_game import Game
 
-pg.init()
 
+
+pg.init()
+pg.mixer.init()
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
 
 
-
-
-
+musica_menu = pg.mixer.music.load(r"./sonidos/musica_giu.mp3")
+pg.mixer.music.set_volume(0.15)
 
 pantalla = pg.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
 pg.display.set_caption("Menu")
@@ -71,7 +72,7 @@ def apreto_play():
                     
                     nivel_seleccionado = entrar_al_nivel(nombre_jugador)
                     if nivel_seleccionado is not None:
-
+                        
                         iniciar_juego(nombre_jugador, nivel_seleccionado)
                         return
                     elif event.key == pg.K_BACKSPACE:
@@ -185,8 +186,10 @@ def iniciar_juego(jugador_nombre, nivel_seleccionado):
     juego.correr_nivel(nivel_seleccionado)
     
 def main_menu():
-
+    pg.mixer.music.play(-1)
     while True:
+        
+        
         pantalla.blit(fondo_menu, (0,0))
         posicion_mouse = pg.mouse.get_pos()
         menu_texto = get_font(40).render("Menu de opciones", True, "Pink")

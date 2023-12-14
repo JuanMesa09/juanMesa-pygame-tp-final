@@ -6,7 +6,7 @@ from constantes import *
 from clase_jugador import Jugador
 from clase_nivel import Nivel
 from clase_puntaje import Puntaje
-
+from db import *
 
 
 
@@ -28,12 +28,18 @@ class Game():
         self.puntaje_jugador = 0
         self.total_vidas = 0
         self.sonido_item_puntos = pg.mixer.Sound(r"./sonidos/audio_item_1.mp3")
+        self.musica_final = pg.mixer.Sound(r"./sonidos/musica_final.mp3")
         self.pantalla = pg.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+        
         
         titulo = pg.display.set_caption("El paseo de Luffy")
         font = pg.font.Font(None, 36)
         self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, nombre_nivel)
 
+
+
+        
+        
         self.tiempo_total_transcurrido = 0
         
         
@@ -44,15 +50,17 @@ class Game():
         self.puntaje = Puntaje()
         self.tiempo_inicial = pg.time.get_ticks()//1000 
         self.duracion_game =  40
-        self.nivel_1_gando = False
+        
         self.nivel_2_ganado = False
         self.nivel_3_ganado = False
+        
 
         while self.juego_ejecutandose:
             lista_eventos = []
-            
             delta_ms = retardo.tick(FPS)
             pg.time.delay(30)
+            
+            
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.juego_ejecutandose = False
@@ -60,7 +68,7 @@ class Game():
                 if event.type == pg.KEYDOWN:
                         if event.key == pg.K_p:
                             self.pausa()
-                            
+                            self.juego.correr_musica()
                             
                         
                 lista_eventos.append(event)
@@ -70,6 +78,7 @@ class Game():
             tiempo_restante = max(0, self.duracion_game - tiempo_transcurrido)
             
             
+
             if tiempo_transcurrido >= self.duracion_game:
                 self.juego_ejecutandose =  False
                 self.pantalla.fill((0, 0, 0))
@@ -105,7 +114,6 @@ class Game():
                     self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
                     self.nivel_3_ganado = True
 
-
                 if len(self.juego.grupo_enemigos) < 1  and self.nivel_3_ganado :
 
                         self.pantalla.fill((0, 0, 0))
@@ -114,8 +122,10 @@ class Game():
                         self.pantalla.blit(texto_puntaje_victoria,(0, ALTO_VENTANA // 2))
                         self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                         pg.display.flip()
+                        self.musica_final.set_volume(0.5)
+                        self.musica_final.play()
                         pg.time.delay(3000)
-                        
+                        pg.quit()
                 
                 #colision bala con estructura
                 colision_bala_en_estructura =  pg.sprite.spritecollide(bala, self.juego.lista_estructuras,False)
@@ -169,6 +179,7 @@ class Game():
                     self.pantalla.blit(texto_victoria, (ANCHO_VENTANA // 2 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                     pg.display.flip()
                     pg.time.delay(3000)
+                    
             
             #colision jugador con trampa
             colision_jugador_con_trampa = pg.sprite.spritecollide(self.juego.luffy, self.juego.grupo_trampas, False)
@@ -185,6 +196,8 @@ class Game():
                     self.pantalla.blit(texto_victoria, (ANCHO_VENTANA // 2 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                     pg.display.flip()
                     pg.time.delay(3000)
+                    pg.quit()
+
             
             self.pantalla.blit(self.juego.fondo_carga,(0,0))
             self.pantalla.blit(tiempo_juego,(ANCHO_VENTANA//2, 10))
@@ -198,7 +211,7 @@ class Game():
             
             pg.display.update()
             
-        #juego.parar_musica() 
+        
         pg.quit()
     def pausa(self):
         pausa = True

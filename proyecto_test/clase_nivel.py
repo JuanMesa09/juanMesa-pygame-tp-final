@@ -157,7 +157,7 @@ class Nivel:
         if self.music_path:
             
             pg.mixer.music.load(self.music_path)
-            pg.mixer.music.set_volume(0.10)
+            pg.mixer.music.set_volume(0.05)
     
     def correr_musica(self):
         if self.music_path:
@@ -185,5 +185,6 @@ class Nivel:
         self.dibujar_estructuras()
         self.dibujar_trampas()
         self.cargar_music()
+        self.correr_musica()
         self.luffy.draw(pantalla)
         
