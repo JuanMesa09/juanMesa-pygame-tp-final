@@ -86,6 +86,7 @@ def apreto_play():
             if input_box.is_enter_pressed(event):
                 entrada_activa = False
                 nombre_jugador = input_box.text
+                
                 nivel_seleccionado = entrar_al_nivel(nombre_jugador)
                 if nivel_seleccionado is not None:
                     iniciar_juego(nombre_jugador, nivel_seleccionado)
@@ -193,7 +194,7 @@ def iniciar_juego(nombre_jugador, nivel_seleccionado):
     
     juego = Game(nombre_jugador, nivel_seleccionado)
     
-    juego.correr_nivel(nombre_jugador,nivel_seleccionado)
+    juego.correr_nivel()
     
 def main_menu():
     pg.mixer.music.play(-1)

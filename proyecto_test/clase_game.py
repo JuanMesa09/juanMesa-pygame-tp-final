@@ -15,10 +15,11 @@ class Game():
 
     def __init__(self,jugador_nombre, nivel_seleccionado) :
         super().__init__()
-    
+        self.jugador_nombre =jugador_nombre
+        self.nivel_seleccionado = nivel_seleccionado
     
 
-    def correr_nivel(self, jugador_nombre, nombre_nivel):
+    def correr_nivel(self):
     
         self.icono_vida =pg.transform.scale(pg.image.load(r'./imagenes\vidas\vida_mate.png'), (25,25))
         self.rect = self.icono_vida.get_rect()
@@ -34,7 +35,7 @@ class Game():
         
         titulo = pg.display.set_caption("El paseo de Luffy")
         font = pg.font.Font(None, 36)
-        self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, nombre_nivel)
+        self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, self.nivel_seleccionado,self.jugador_nombre)
 
 
 
@@ -53,8 +54,9 @@ class Game():
         
         self.nivel_2_ganado = False
         self.nivel_3_ganado = False
-        self.juego.luffy.nombre_jugador = jugador_nombre
-        self.juego.nivel_seleccionado = nombre_nivel
+        # self.juego.luffy.nombre_jugador = self.jugador_nombre
+        # print(self.juego.luffy.nombre_jugador)
+        self.juego.nivel_seleccionado = self.nivel_seleccionado
         crear_tabla()
 
         while self.juego_ejecutandose:
@@ -107,13 +109,13 @@ class Game():
                     
                 if not self.nivel_2_ganado and len(self.juego.grupo_enemigos) < 1 and not self.nivel_3_ganado:
                     
-                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_2")
+                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_2", self.jugador_nombre)
                     self.nivel_2_ganado = True
                     
                     
                 elif self.nivel_2_ganado and not self.nivel_3_ganado and len(self.juego.grupo_enemigos) < 1:
                     
-                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3")
+                    self.juego = Nivel(self.pantalla, ANCHO_VENTANA, ALTO_VENTANA, "nivel_3", self.jugador_nombre)
                     self.nivel_3_ganado = True
 
                 if len(self.juego.grupo_enemigos) < 1  and self.nivel_3_ganado :
@@ -125,6 +127,7 @@ class Game():
                         self.pantalla.blit(texto_victoria, (480 - texto_victoria.get_width() // 1, ALTO_VENTANA // 2 - texto_victoria.get_height() // 1))
                         pg.display.flip()
                         self.musica_final.set_volume(0.5)
+                        print(self.juego.luffy.nombre_jugador)
                         insertar_campos(self.juego.luffy.nombre_jugador, self.puntaje.obtener_puntaje())
                         self.musica_final.play()
                         pg.time.delay(3000)

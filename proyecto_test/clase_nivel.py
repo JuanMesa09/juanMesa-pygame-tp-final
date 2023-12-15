@@ -11,7 +11,7 @@ from clase_trampas import Trampa
 
 
 class Nivel:
-    def __init__(self, pantalla: pg.surface.Surface, ancho_pantalla, alto_pantalla, nombre_lvl):
+    def __init__(self, pantalla: pg.surface.Surface, ancho_pantalla, alto_pantalla, nombre_lvl, nombre_jugador):
         self.configuraciones = abrir_config().get(nombre_lvl)
         if self.configuraciones:
             self.nombre_nivel = self.configuraciones['nivel']
@@ -38,6 +38,7 @@ class Nivel:
                                 self.configuraciones['jugador']['posicion_y'],
                                 self.configuraciones['jugador']['velocidad_caminar'],
                                 self.configuraciones['jugador']['cuadros_por_seg'])
+        self.luffy.nombre_jugador = nombre_jugador
         #-------------------------------------------------------------------------
         #estructura
         self.estructura  = self.configuraciones["estructuras"]
